@@ -13,4 +13,8 @@ RUN apt-get update && \
 EXPOSE ${PROXY_PORT}
 
 # Starta simpleproxy
-CMD ["sh", "-c", "simpleproxy -L ${PROXY_PORT} -R ${TARGET_HOST}:${TARGET_PORT}"]
+CMD ["sh", "-c", "\
+  echo 'Starting simpleproxy...'; \
+  echo \"Listening on port: $PROXY_PORT\"; \
+  echo \"Forwarding to: $TARGET_HOST:$TARGET_PORT\"; \
+  simpleproxy -L $PROXY_PORT -R $TARGET_HOST:$TARGET_PORT"]
