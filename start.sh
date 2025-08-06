@@ -15,4 +15,4 @@ fi
 echo "✅ Resolved $TARGET_HOST to $IPV6_ADDR"
 echo "➡️  Starting proxy: TCP4-LISTEN:$PROXY_PORT -> [$IPV6_ADDR]:$TARGET_PORT"
 
-socat -v TCP4-LISTEN:"$PROXY_PORT",fork,reuseaddr TCP6:[$IPV6_ADDR]:"$TARGET_PORT"
+socat TCP4-LISTEN:"$PROXY_PORT",fork,reuseaddr TCP6:[$IPV6_ADDR]:"$TARGET_PORT"
