@@ -12,9 +12,6 @@ RUN apt-get update && \
 
 EXPOSE ${PROXY_PORT}
 
-RUN apt update && apt install -y netcat
-RUN nc -zv minecraft-server.railway.internal 22
-
 # Starta simpleproxy
 CMD ["sh", "-c", "\
   echo 'Starting simpleproxy...'; \
