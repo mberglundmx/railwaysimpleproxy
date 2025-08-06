@@ -1,20 +1,16 @@
 FROM alpine:latest
 
-RUN apk add --no-cache build-base git
+RUN apk add --no-cache build-base wget unzip
 
-# Klona och bygg simpleproxy
-RUN git clone --depth 1 https://github.com/usadmin/simpleproxy.git /simpleproxy && \
-    cd /simpleproxy && \
+# Ladda ner simpleproxy som zip och extrahera
+RUN wget https://github.com/usadmin/simpleproxy/archive/refs/heads/master.zip && \
+    unzip master.zip && \
+    cd simpleproxy-master && \
     make && \
     cp simpleproxy /usr/local/bin && \
     chmod +x /usr/local/bin/simpleproxy && \
-    cd / && rm -rf /simpleproxy && \
-    apk del build-base git
-
-# Miljövariabler för konfiguration
-#ENV PROXY_PORT=5000
-#ENV TARGET_HOST=host.docker.internal
-#ENV TARGET_PORT=8000
+    cd / && rm -rf simpleproxy-master master.zip && \
+    apk del build-base wget unzip
 
 EXPOSE ${PROXY_PORT}
 
