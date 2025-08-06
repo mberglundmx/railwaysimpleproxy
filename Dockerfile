@@ -3,7 +3,7 @@ FROM alpine:latest
 RUN apk add --no-cache build-base git
 
 # Klona och bygg simpleproxy
-RUN git clone https://github.com/usadmin/simpleproxy.git /simpleproxy && \
+RUN git clone --depth 1 https://github.com/usadmin/simpleproxy.git /simpleproxy && \
     cd /simpleproxy && \
     make && \
     cp simpleproxy /usr/local/bin && \
