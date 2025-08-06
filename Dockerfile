@@ -17,4 +17,4 @@ CMD ["sh", "-c", "\
   echo 'Starting simpleproxy...'; \
   echo \"Listening on port: $PROXY_PORT\"; \
   echo \"Forwarding to: $TARGET_HOST:$TARGET_PORT\"; \
-  simpleproxy -v -L $PROXY_PORT -R $TARGET_HOST:$TARGET_PORT"]
+  simpleproxy -v -L $PROXY_PORT -R [$TARGET_HOST]:$TARGET_PORT"]
