@@ -1,17 +1,17 @@
 #!/bin/sh
 set -e
 
-echo "Updating packages..."
-apt update
+apt update && apt install -y simpleproxy dnsutils
 
-echo "Installing simpleproxy..."
-apt install -y simpleproxy dnsutils net-tools
+echo "🔍 Resolving target host..."
+IPV6_ADDR=$(getent ahosts "$TARGET_HOST" | awk '/STREAM/ { print $1; exit }')
 
-echo "🔍 DNS lookup with dig:"
-dig "$TARGET_HOST" || echo "dig failed"
+if [ -z "$IPV6_ADDR" ]; then
+  echo "❌ Failed to resolve $TARGET_HOST to IPv6"
+  exit 1
+fi
 
-echo "🔍 DNS lookup with getent:"
-getent hosts "$TARGET_HOST" || echo "getent failed"
+echo "✅ Resolved $TARGET_HOST to $IPV6_ADDR"
+echo "➡️  Starting proxy on port $PROXY_PORT to [$IPV6_ADDR]:$TARGET_PORT"
 
-echo "Starting simpleproxy on port $PROXY_PORT forwarding to $TARGET_HOST:$TARGET_PORT"
-simpleproxy -v -L "$PROXY_PORT" -R [$TARGET_HOST]:$TARGET_PORT
+simpleproxy -v -L "$PROXY_PORT" -R "[$IPV6_ADDR]:$TARGET_PORT"
